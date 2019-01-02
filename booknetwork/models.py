@@ -3,11 +3,12 @@ from booknetwork import app
 from sqlalchemy import Column, ForeignKey, String, Integer
 from sqlalchemy.orm import relationship
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 db = SQLAlchemy(app)
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String)
@@ -19,6 +20,7 @@ class User(db.Model):
         r = Review(title=title, user_id=self.id)
         db.session.add(r)
         db.session.commit()
+
 
 class Book(db.Model):
     __tablename__ = 'books'
