@@ -1,9 +1,6 @@
-import os
-from flask import Flask, render_template, redirect, flash, url_for
-from forms import RegistrationForm, LoginForm
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'efs2@$$2f0-pl,<'
+from booknetwork import app
+from flask import render_template, redirect, flash, url_for
+from booknetwork.forms import RegistrationForm, LoginForm
 
 @app.route('/')
 def index():
@@ -28,5 +25,4 @@ def register():
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
 
-if __name__ == "__main__":
-    app.run(debug=True)
+    
