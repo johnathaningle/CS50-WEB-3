@@ -1,24 +1,16 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField
-from wtforms.validators import DataRequired, Email, ValidationError
-from models import User
-from app import db
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms.validators import DataRequired, Length, Email, EqualTo
+
+class RegistrationForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(), Length(min=4, max=24)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo("password")])
+    submit = SubmitField('Register')
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
-    remember_me = BooleanField('Remember Me')
-
-class RegisterForm(FlaskForm):
-    username = StringField('username', validators=[DataRequired()])
-    email = StringField('email', validators=[DataRequired(), Email()])
-    password = PasswordField('password', validators=[DataRequired()])
-    
-    def validate_username(self, username):
-        user = db.execute(f"SELECT * FROM users WHERE username='{username}'").fetchone()
-        if user is not None:
-            raise ValidationError('Choose a different username')
-    def validate_email(self, email):
-        user = db.execute(f"SELECT * FROM users WHERE email='{email}'").fetchone()
-        if user is not None:
-            raise ValidationError('Choose a different email')
+    remember = BooleanField('Remember Me')
+    submit = SubmitField('Sign In')

@@ -6,3 +6,7 @@ tmp\.txt
 *.pyc
 
 flask_session/
+
+given_specs\.pdf
+
+*.txt
