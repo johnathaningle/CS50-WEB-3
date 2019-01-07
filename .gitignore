@@ -12,3 +12,5 @@ given_specs\.pdf
 *.txt
 
 *.tmp
+
+backup/V2/
