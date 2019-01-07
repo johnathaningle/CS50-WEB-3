@@ -1,45 +1,60 @@
-from flask import Flask, render_template, url_for, flash, jsonify, request, session, redirect
-from flask_login import user_logged_in, login_user, logout_user, current_user
-from booknetwork import app, db, login_manager
-from booknetwork.forms import LoginForm, RegisterForm
-from booknetwork.models import User, Book, Review
+from booknetwork import app
+from flask import render_template, redirect, flash, url_for
+from flask_login import login_user, current_user, logout_user
+from booknetwork.forms import RegistrationForm, LoginForm
+from werkzeug.security import generate_password_hash, check_password_hash
+from booknetwork.models import User
+from booknetwork import db
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id) ##may conflict with sqlachemy or flask_sqlalchemy????
 
-@app.route("/")
+
+@app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', title='Book Review Network Home')
 
-@app.route("/login", methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
-        uname = form.username.data
-        passwd = form.password.data
-        user = db.execute(f"SELECT * FROM users WHERE username = '{uname}' AND password='{passwd}'").fetchone()
-        if user is not []:
-            login_user(user)
-            return redirect(url_for('dashboard'))
+        check_user = User.query.filter_by(email=form.email.data).first()
+        if check_user and check_password_hash(check_user.password, form.password.data):
+            login_user(check_user, remember=form.remember.data)
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('index'))
         else:
-            flash('Invalid username or password')
-            return redirect(url_for('login'))
+            flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', form=form)
 
-@app.route("/register")
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    pass
-
-@app.route("/dashboard")
-def dashboard():
-    return render_template('dashboard.html')
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.password.data)
+        check_user = User.query.filter_by(username=form.username.data).first()
+        check_email = User.query.filter_by(email=form.email.data).first()
+        if check_email:
+            flash(f'{check_email.email} has already been taken', 'warning')
+            return redirect(url_for('register'))
+        if check_user:
+            flash(f'{check_user.username} has already been taken', 'warning')
+            return redirect(url_for('register'))
+        else:
+            new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+            db.session.add(new_user)
+            db.session.commit()
+            flash(f'Account created for {form.username.data}!', 'success')
+            return redirect(url_for('index'))
+    return render_template('register.html', form=form)
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/account')
+def account():
+    pass
 
     
