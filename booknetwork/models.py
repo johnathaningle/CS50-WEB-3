@@ -1,9 +1,11 @@
 from sqlalchemy import Column, ForeignKey, String, Integer
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin
-from booknetwork import db
+from booknetwork import db, loginmanager
 
-
+@loginmanager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
