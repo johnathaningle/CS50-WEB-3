@@ -4,6 +4,29 @@
 {% endblock css %}
 
 {% block content %}
-    <h1>Welcome to book Network</h1>
-    <p>Please login to search for and submit book reviews</p>
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <h1>Welcome to book Network</h1>
+            </div>
+        </div>
+    </article>
+    <article class="media content-section">
+        <div class="media-body">
+            {% if current_user.is_authenticated %}
+                <h3 class="mb-4">Search for a book!</h3>
+                <div class="mb-4">
+                    <form id="form">
+                        <input type="text" name="search" class="form-control" placeholder="title, author, isbn, etc...">
+                        <input type="submit" class="btn btn-primary form-control mt-3" value="Search">
+                    </form>
+                </div>
+            {% else %}
+                <p>You must be logged in to search for and reviews your favoirte books.</p>
+            <p class="text-muted">Have and account? <a class="mr-4" href="{{ url_for('login') }}">Login</a> 
+                   Need to sign up? <a href="{{ url_for('register')}}">Register</a></p>
+            {% endif %}
+        </div>
+    </article>
+    
 {% endblock content %}
