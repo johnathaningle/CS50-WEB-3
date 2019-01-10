@@ -6,9 +6,7 @@
 {% block content %}
     <article class="media content-section">
         <div class="media-body">
-            <div class="article-metadata">
-                <h1>Welcome to book Network</h1>
-            </div>
+            <h1 id="title">Welcome to book Network</h1>
         </div>
     </article>
     <article class="media content-section">
@@ -18,7 +16,7 @@
                 <div class="mb-4">
                     <form id="form">
                         <input type="text" name="search" class="form-control" placeholder="title, author, isbn, etc...">
-                        <input type="submit" class="btn btn-primary form-control mt-3" value="Search">
+                        <input type="submit" class="btn btn-primary form-control mt-3" value="Search" id="search-button">
                     </form>
                 </div>
             {% else %}
@@ -28,5 +26,7 @@
             {% endif %}
         </div>
     </article>
-    
+    <div class="media content-section mb-4" id="search-results" style="display:none;">
+        <h1>Search Results: </h1>
+    </div>
 {% endblock content %}

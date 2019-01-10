@@ -1,5 +1,5 @@
 from booknetwork import app
-from flask import render_template, redirect, flash, url_for
+from flask import render_template, redirect, flash, url_for, request, jsonify
 from flask_login import login_user, current_user, logout_user
 from booknetwork.forms import RegistrationForm, LoginForm
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -8,7 +8,7 @@ from booknetwork import db
 
 
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def index():
     return render_template('index.html', title='Book Review Network Home')
 
@@ -58,9 +58,19 @@ def logout():
 def account():
     pass
 
-@app.route('/search', methods=['POST'])
+@app.route('/search', methods=['GET','POST'])
 def search():
-    pass
+    text = request.form.get("search")
+    print(f"Text: {text}")
+    result = db.session.execute(
+        "SELECT * FROM book WHERE (LOWER(isbn) LIKE LOWER(:text)) OR (LOWER(title) LIKE LOWER(:text)) OR (author LIKE LOWER(:text)) LIMIT 10",
+        { "text": '%' + text + '%'} 
+    ).fetchall()
+    data = []
+    for row in result:
+        data.append(dict(row)) 
+    print(data)
+    return jsonify({ 'data': data })
 
 @app.route('/search_results')
 def search_results():
