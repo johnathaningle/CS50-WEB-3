@@ -58,9 +58,9 @@ def logout():
 def account():
     pass
 
-@app.route('/search', methods=['GET','POST'])
-def search():
-    text = request.form.get("search")
+@app.route('/search/<search_text>', methods=['GET','POST'])
+def search(search_text):
+    text = search_text
     print(f"Text: {text}")
     result = db.session.execute(
         "SELECT * FROM book WHERE (LOWER(isbn) LIKE LOWER(:text)) OR (LOWER(title) LIKE LOWER(:text)) OR (author LIKE LOWER(:text)) LIMIT 10",
