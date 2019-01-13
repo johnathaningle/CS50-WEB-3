@@ -1,27 +1,37 @@
 {% extends 'layout.html' %}
 
 {% block css %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 {% endblock css %}
 
 {% block content %}
-<div class="content-section text-center">
-    <h3>{{ title }}</h3>
-    <hr>
-    <div class="row">
-        <div class="col-md-4">
-            <p>{{ isbn }}</p>
-        </div>
-        <div class="col-md-4">
+<div class="content-section">
+    <div class="shadow-sm row pb-4">
+        <div class="col-md-6 book-detail">
+            <h3 class="book-title">{{ title }}</h3>
+            <hr>
             <p>{{ author }}</p>
-        </div>
-        <div class="col-md-4">
             <p>{{ year }}</p>
+            <div class="row">
+                <div id="rate">
+                    <div id="rater"></div>
+                </div>
+                <p class="ml-2" id="rating-number">{{ rating }}</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="book-image"></div>
         </div>
     </div>
-    <hr>
-</div>
+    
+        <h3>Reviews:</h3>
+        <hr>
+    </div>
+
+
 {% endblock content %}
 
 {% block javascript %}
 <script src="{{ url_for('static', filename='book.js') }}"></script>
+<script src="{{ url_for('static', filename='rater.min.js') }}"></script>
 {% endblock javascript %}
