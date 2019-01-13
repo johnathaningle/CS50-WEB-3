@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block css %}
+{% endblock css %}
+
+{% block content %}
+<div class="content-section text-center">
+    <h3>{{ title }}</h3>
+    <hr>
+    <div class="row">
+        <div class="col-md-4">
+            <p>{{ isbn }}</p>
+        </div>
+        <div class="col-md-4">
+            <p>{{ author }}</p>
+        </div>
+        <div class="col-md-4">
+            <p>{{ year }}</p>
+        </div>
+    </div>
+    <hr>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script src="{{ url_for('static', filename='book.js') }}"></script>
+{% endblock javascript %}

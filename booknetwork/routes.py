@@ -74,11 +74,13 @@ def search(search_text):
 
 @app.route('/book/<isbn>')
 def book_page(isbn):
-    result = db.session.execute("SELECT * FROM book WHERE isbn='{}'".format(isbn)).fetchone()
-    data = []
-    print(result)
-    for row in result:
-        data.append(row) 
-    return jsonify({ 'data': data })
+    if current_user.is_authenticated:
+        result = db.session.execute("SELECT * FROM book WHERE isbn='{}'".format(isbn)).fetchone()
+        if result:
+            return render_template('book.html', title=result[2], isbn=result[1], author=result[3], year=result[4])
+        else:
+            return redirect(url_for('index'))
+    else:
+        return redirect(url_for('index'))
 
     
