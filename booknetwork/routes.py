@@ -1,10 +1,10 @@
-from booknetwork import app
+from booknetwork import app, db, GOODREADS_KEY
 from flask import render_template, redirect, flash, url_for, request, jsonify
 from flask_login import login_user, current_user, logout_user
 from booknetwork.forms import RegistrationForm, LoginForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from booknetwork.models import User
-from booknetwork import db
+import requests, json
 
 
 
@@ -77,7 +77,11 @@ def book_page(isbn):
     if current_user.is_authenticated:
         result = db.session.execute("SELECT * FROM book WHERE isbn='{}'".format(isbn)).fetchone()
         if result:
-            return render_template('book.html', title=result[2], isbn=result[1], author=result[3], year=result[4])
+            review_data = requests.get(f"https://www.goodreads.com/book/review_counts.json?key={GOODREADS_KEY}&isbns={isbn}")
+            review_dict = json.loads(review_data.text)
+            review_count = review_dict['books'][0]['ratings_count']
+            review_rating = review_dict['books'][0]['average_rating']
+            return render_template('book.html', title=result[2], isbn=result[1], author=result[3], year=result[4], rating=review_rating)
         else:
             return redirect(url_for('index'))
     else:

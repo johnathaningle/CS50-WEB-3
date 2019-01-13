@@ -11,6 +11,10 @@ app.config['SECRET_KEY'] = 'efs2@$$2f0-pl,<'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+
+GOODREADS_KEY = os.getenv("GOODREADS_KEY")
+GOODREADS_SECRET = os.getenv("GOODREADS_SECRET")
+
 db =SQLAlchemy(app)
 
 loginmanager = LoginManager(app)
