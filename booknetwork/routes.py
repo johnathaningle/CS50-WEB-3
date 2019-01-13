@@ -72,8 +72,15 @@ def search(search_text):
     print(data)
     return jsonify({ 'data': data })
 
-@app.route('/search_results')
-def search_results():
-    pass
+@app.route('/book/<isbn>')
+def book_page(isbn):
+    if current_user.is_authenticated:
+        result = db.session.execute("SELECT * FROM book WHERE isbn='{}'".format(isbn)).fetchone()
+        if result:
+            return render_template('book.html', title=result[2], isbn=result[1], author=result[3], year=result[4])
+        else:
+            return redirect(url_for('index'))
+    else:
+        return redirect(url_for('index'))
 
     
