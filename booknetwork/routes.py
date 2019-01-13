@@ -72,8 +72,13 @@ def search(search_text):
     print(data)
     return jsonify({ 'data': data })
 
-@app.route('/search_results')
-def search_results():
-    pass
+@app.route('/book/<isbn>')
+def book_page(isbn):
+    result = db.session.execute("SELECT * FROM book WHERE isbn='{}'".format(isbn)).fetchone()
+    data = []
+    print(result)
+    for row in result:
+        data.append(row) 
+    return jsonify({ 'data': data })
 
     

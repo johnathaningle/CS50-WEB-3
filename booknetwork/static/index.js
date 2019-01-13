@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function(e){
         searchContentDiv.style.display = "block";
         var searchValue = document.getElementById('search').value;
         //clear any existing search results
-        searchContentDiv.innerHTML = "";
+        searchContentDiv.innerHTML = "<h1>Search Results:</h1>";
         console.log(searchValue);
         load_page(searchValue);
 
