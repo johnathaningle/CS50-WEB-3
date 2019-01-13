@@ -30,3 +30,7 @@
         <h1>Search Results:</h1>
     </div>
 {% endblock content %}
+
+{% block javascript %}
+<script src="{{ url_for('static', filename='index.js') }}"></script>
+{% endblock javascript %}
