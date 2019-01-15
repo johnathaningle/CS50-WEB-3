@@ -25,7 +25,14 @@
     </div>
     </div>
     <div class="content-section">
-        <h3>Reviews:</h3>
+        <div class="row mt-3 mb-3">
+            <div class="col-md-9">
+                <h3 class="book-title">Reviews:</h3>
+            </div>
+            <div class="col-md-3">
+                <button type="button" id="add-review" class="btn btn-primary">Add Review</button>
+            </div>
+        </div>
     </div>
     <!--review content goes here-->
     
@@ -33,7 +40,8 @@
             {% for review in reviews %}
             <div class="content-section">
                 <h4>{{ review.title }}</h4>
-                <p>{{ review.rating }}</p>
+                <hr>
+                <p>Rating: {{ review.rating }}</p>
                 <p>{{ review.content }}</p>
             </div>
             {% endfor %}
