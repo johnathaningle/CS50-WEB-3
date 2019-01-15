@@ -106,3 +106,10 @@ body {
   .book-title {
     font-family: Georgia, 'Times New Roman', Times, serif;
   }
+
+  #cancel-review {
+    position: relative;
+    top: -30px;
+    margin-left: 95%;
+    font-size: 30px;
+  }

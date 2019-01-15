@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block css %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
 {% endblock css %}
 
 {% block content %}
@@ -30,9 +30,20 @@
                 <h3 class="book-title">Reviews:</h3>
             </div>
             <div class="col-md-3">
-                <button type="button" id="add-review" class="btn btn-primary">Add Review</button>
+                <button type="button" id="add-review" class="btn btn-light">Add Review</button>
             </div>
         </div>
+    </div>
+    <!--div visible on add review click-->
+    <div class="content-section pl-4 pr-4" id="review-box" style="display: none;">
+        <form class="form">
+            <h5 class="mt-2">Add a review:</h5>
+            <i class="fas fa-times-circle text-danger" id="cancel-review"></i>
+            <input type="text" class="form-control mb-3" placeholder="Message">
+            <input type="text" class="form-control mb-3" placeholder="Rating - ex 4.5">
+            <input type="text" class="form-control mb-3" placeholder="What did you like and dislike?">
+            <button type="submit" class="btn btn-primary form-control mb-3">Submit Review</button>
+        </form>
     </div>
     <!--review content goes here-->
     
