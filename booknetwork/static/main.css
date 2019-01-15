@@ -99,7 +99,6 @@ body {
   }
   .book-image {
     background: #444444;
-    min-width: 300px;
     min-height: 300px;
     border-radius: 3px;
   }

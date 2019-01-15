@@ -76,11 +76,24 @@ def search(search_text):
 def book_page(isbn):
     if current_user.is_authenticated:
         result = db.session.execute("SELECT * FROM book WHERE isbn='{}'".format(isbn)).fetchone()
+        reviews = db.session.execute(f"SELECT * FROM review WHERE book_id={result[0]}")
+        review_list = []
+        if reviews:
+            for i in reviews:
+                review = {}
+                review["title"] = i[1]
+                review["rating"] = i[2]
+                review["content"] = i[3]
+                review_list.append(review)
+        print(review_list)
         if result:
             review_data = requests.get(f"https://www.goodreads.com/book/review_counts.json?key={GOODREADS_KEY}&isbns={isbn}")
             review_dict = json.loads(review_data.text)
             review_count = review_dict['books'][0]['ratings_count']
             review_rating = review_dict['books'][0]['average_rating']
+            if review_list:
+                print("in review")
+                return render_template('book.html', title=result[2], isbn=result[1], author=result[3], year=result[4], rating=review_rating, reviews=review_list)
             return render_template('book.html', title=result[2], isbn=result[1], author=result[3], year=result[4], rating=review_rating)
         else:
             return redirect(url_for('index'))
