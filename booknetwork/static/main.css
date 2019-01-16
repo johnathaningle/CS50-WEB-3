@@ -99,11 +99,17 @@ body {
   }
   .book-image {
     background: #444444;
-    min-width: 300px;
     min-height: 300px;
     border-radius: 3px;
   }
 
   .book-title {
     font-family: Georgia, 'Times New Roman', Times, serif;
+  }
+
+  #cancel-review {
+    position: relative;
+    top: -30px;
+    margin-left: 95%;
+    font-size: 30px;
   }

@@ -1,6 +1,5 @@
 $(document).ready(function(){
     let rating = $("#rating-number").text();
-    console.log(rating);
     var options = {
         max_value: 5,
         step_size: 0.5,
@@ -9,5 +8,10 @@ $(document).ready(function(){
         update_input_field_name: $("#rater"),
     }
     $("#rate").rate(options);
-
+    $("#add-review").click(function(){
+        $("#review-box").toggle();
+    });
+    $("#cancel-review").click(function(){
+        $("#review-box").toggle();
+    });
 });
