@@ -107,13 +107,20 @@ def book_page(isbn):
     # if the review form was submitted
     else:
         if current_user.is_authenticated:
+            #check if the user has already submited a review
             result = db.session.execute("SELECT * FROM book WHERE isbn='{}'".format(isbn)).fetchone()
+            check = db.session.execute(f"SELECT * FROM review WHERE user_id={session['user_id']} AND book_id={result[0]}").fetchone()
+            print(check)
             title = request.form['title']
             rating = request.form['rating']
             content = request.form['content']
-            r = Review(title=title, rating=rating, content=content, user_id=session["user_id"], book_id=result[0])
-            db.session.add(r)
-            db.session.commit()
+            if check is None:
+                r = Review(title=title, rating=rating, content=content, user_id=session["user_id"], book_id=result[0])
+                db.session.add(r)
+                db.session.commit()
+                message = ["Review Successfully Added!", 'success']
+            else:
+                message = ["You cannot submit more than one review", "danger"]
             result = db.session.execute("SELECT * FROM book WHERE isbn='{}'".format(isbn)).fetchone()
             reviews = db.session.execute(f"SELECT * FROM review WHERE book_id={result[0]}")
             review_list = []
@@ -136,7 +143,7 @@ def book_page(isbn):
                     review_rating = "N/A"
                 if review_list:
                     print("in review")
-                    flash('Review successfully added!', 'success')
+                    flash(message[0], message[1])
                     return render_template('book.html', title=result[2], isbn=result[1], author=result[3], year=result[4], rating=review_rating, reviews=review_list)
                 return render_template('book.html', title=result[2], isbn=result[1], author=result[3], year=result[4], rating=review_rating)
         # current user is not authenticated
