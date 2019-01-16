@@ -36,12 +36,12 @@
     </div>
     <!--div visible on add review click-->
     <div class="content-section pl-4 pr-4" id="review-box" style="display: none;">
-        <form class="form">
+        <form class="form" method="POST">
             <h5 class="mt-2">Add a review:</h5>
             <i class="fas fa-times-circle text-danger" id="cancel-review"></i>
-            <input type="text" class="form-control mb-3" placeholder="Message">
-            <input type="text" class="form-control mb-3" placeholder="Rating - ex 4.5">
-            <input type="text" class="form-control mb-3" placeholder="What did you like and dislike?">
+            <input type="text" class="form-control mb-3" placeholder="Message" name="title">
+            <input type="text" class="form-control mb-3" placeholder="Rating - ex 4.5" name="rating">
+            <input type="text" class="form-control mb-3" placeholder="What did you like and dislike?" name="content">
             <button type="submit" class="btn btn-primary form-control mb-3">Submit Review</button>
         </form>
     </div>
