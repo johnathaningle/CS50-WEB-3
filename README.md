@@ -23,6 +23,6 @@ Goodreads Review Data: On the book page, I needed to also display (if available)
 - get an api key from https://www.goodreads.com/api/keys
 - set environment variables GOODREADS_SECRET and GOODREADS_KEY to your corresponding values
 - for a local database, set environment DATABASE_URL to sqlite:///[your-db-name] or use login credentials for an existing database
-- create a python virtual environment abd activate it
+- create a python virtual environment and activate it
 - **run:** pip install -r requirements.txt 
 - **run:** python application.py
